@@ -1,0 +1,13 @@
+version: '2'
+services:
+  odoo_docker_server:
+    image: div_odoo_image:prod_v3
+    command: start
+    ports:
+      - 8069:8069
+    volumes:
+      - ./volumes/odoo/addons:/opt/odoo/additional_addons
+      - ./volumes/odoo/filestore:/opt/odoo/data/filestore
+      - ./volumes/odoo/sessions:/opt/odoo/data/sessions
+    enviroment:
+      - TARGET_UID=1000

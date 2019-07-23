@@ -1,8 +1,8 @@
-FROM ubuntu:16.04
+FROM ubuntu:19.04
 MAINTAINER Elico Corp <webmaster@elico-corp.com>
 
 # Define build constants
-ENV GIT_BRANCH=master \
+ENV GIT_BRANCH=12.0 \
   PYTHON_BIN=python3 \
   SERVICE_BIN=odoo-bin
 
@@ -48,13 +48,17 @@ RUN pip3 install -r /opt/odoo/sources/odoo/requirements.txt
 ADD sources/pip.txt /opt/sources/pip.txt
 RUN pip3 install -r /opt/sources/pip.txt
 
+#install libpng12-0
+ADD http://ftp.cn.debian.org/debian/pool/main/libp/libpng/libpng12-0_1.2.50-2+deb8u3_amd64.deb \
+    /opt/sources/libpng12-0.deb
+RUN dpkg -i /opt/sources/libpng12-0.deb
+
 # Install wkhtmltopdf based on QT5
-RUN curl -o wkhtmltox.tar.xz -SL https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz \
-        && echo '3f923f425d345940089e44c1466f6408b9619562 wkhtmltox.tar.xz' | sha1sum -c - \
-        && tar xvf wkhtmltox.tar.xz \
-        && cp wkhtmltox/lib/* /usr/local/lib/ \
-        && cp wkhtmltox/bin/* /usr/local/bin/ \
-        && rm -rf wkhtmltox
+ADD https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.xenial_amd64.deb \
+  /opt/sources/wkhtmltox.deb
+RUN apt update \
+  && apt install -yq xfonts-base xfonts-75dpi \
+  && dpkg -i /opt/sources/wkhtmltox.deb
 
 # Startup script for custom setup
 ADD sources/startup.sh /opt/scripts/startup.sh
@@ -95,4 +99,3 @@ CMD [ "help" ]
 
 # Expose the odoo ports (for linked containers)
 EXPOSE 8069 8072
-

@@ -194,7 +194,7 @@ function start {
 
     echo $log_src[`date +%F.%H:%M:%S`]' Updating Odoo conf...'
     odoo_conf_file="/opt/odoo/etc/odoo.conf"
-    _update_odoo_conf_params
+    #_update_odoo_conf_params
 
     # Check if need to download addons repo
     _download_addons
@@ -209,4 +209,3 @@ function start {
 
 # Run command
 $*
-
