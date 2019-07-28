@@ -1,4 +1,4 @@
-FROM ubuntu:19.04
+FROM ubuntu:18.04
 MAINTAINER Elico Corp <webmaster@elico-corp.com>
 
 # Define build constants
@@ -32,9 +32,10 @@ USER odoo
 RUN /bin/bash -c "mkdir -p /opt/odoo/{etc,sources/odoo,additional_addons,data,ssh}"
 
 # Add Odoo sources and remove .git folder in order to reduce image size
-WORKDIR /opt/odoo/sources
-RUN git clone --depth=1 https://github.com/odoo/odoo.git -b $GIT_BRANCH \
-  && rm -rf odoo/.git
+WORKDIR /opt/odoo/sources/odoo
+ADD odoo_sourcecode/odoo/ .
+#RUN git clone --depth=1 https://github.com/odoo/odoo.git -b $GIT_BRANCH \
+#  && rm -rf odoo/.git
 
 ADD sources/odoo.conf /opt/odoo/etc/odoo.conf
 ADD auto_addons /opt/odoo/auto_addons

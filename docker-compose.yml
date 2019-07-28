@@ -1,7 +1,7 @@
 version: '2'
 services:
   odoo_docker_server:
-    image: div_odoo_image:prod_v3
+    image: crazyguo/odoo:v1
     command: start
     ports:
       - 8069:8069
@@ -9,5 +9,6 @@ services:
       - ./volumes/odoo/addons:/opt/odoo/additional_addons
       - ./volumes/odoo/filestore:/opt/odoo/data/filestore
       - ./volumes/odoo/sessions:/opt/odoo/data/sessions
-    enviroment:
+      - ./volumes/odoo/odoo.conf:/opt/odoo/etc/odoo.conf
+    environment:
       - TARGET_UID=1000
