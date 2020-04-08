@@ -32,10 +32,10 @@ USER odoo
 RUN /bin/bash -c "mkdir -p /opt/odoo/{etc,sources/odoo,additional_addons,data,ssh}"
 
 # Add Odoo sources and remove .git folder in order to reduce image size
-WORKDIR /opt/odoo/sources/odoo
-ADD odoo_sourcecode/odoo/ .
-#RUN git clone --depth=1 https://github.com/odoo/odoo.git -b $GIT_BRANCH \
-#  && rm -rf odoo/.git
+WORKDIR /opt/odoo/sources
+#ADD odoo_sourcecode/odoo/ .
+RUN git clone --depth=1 https://github.com/odoo/odoo.git -b $GIT_BRANCH \
+  && rm -rf odoo/.git
 
 ADD sources/odoo.conf /opt/odoo/etc/odoo.conf
 ADD auto_addons /opt/odoo/auto_addons
@@ -99,4 +99,4 @@ ENTRYPOINT [ "/usr/bin/dumb-init", "/usr/bin/boot" ]
 CMD [ "help" ]
 
 # Expose the odoo ports (for linked containers)
-EXPOSE 8069 8072
+EXPOSE 8070

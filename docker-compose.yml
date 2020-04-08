@@ -1,10 +1,10 @@
 version: '2'
 services:
   odoo_docker_server:
-    image: crazyguo/odoo:v1
+    image: div_odoo_image:prod_v6
     command: start
     ports:
-      - 8069:8069
+      - 8070:8069
     volumes:
       - ./volumes/odoo/addons:/opt/odoo/additional_addons
       - ./volumes/odoo/filestore:/opt/odoo/data/filestore
